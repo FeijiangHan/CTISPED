@@ -24,3 +24,146 @@ Overall, the techniques aim to showcase skills in medical deep learning, data au
 
 
 For more information please see the Unets-2D REAMDE
+
+# UNET2-2D
+
+This code implements training and evaluation of a convolutional neural network model for segmenting lungs in CT scans.
+
+## Model Architecture
+
+The model architecture is AANet, which contains encoding and decoding blocks with skip connections. Batch normalization is synchronized across GPUs.
+
+## Training Pipeline
+
+- Loads lung CT scans and segmentation masks as training data
+
+- Applies data augmentation like random cropping, flipping, rotation 
+
+- Defines AANet model, Dice + Tversky loss, AdamW optimizer
+
+- Training loop with forward/backward passes, optimization, learning rate scheduling
+
+- Evaluates validation metrics like F1 score 
+
+- Logs training metrics, validation metrics using TensorBoard
+
+- Saves model checkpoints during training
+
+- Tests trained model on test set and generates lung segmentation
+
+## Usage
+
+Train model:
+
+`python train.py --epochs 500 --batch_size 8` 
+
+Main arguments:
+
+- `--epochs`: Number of training epochs
+- `--batch_size`: Batch size
+- `--learn_rate`: Learning rate 
+- `--log_path`: TensorBoard log directory
+
+The code supports multi-GPU training via PyTorch DataParallel.
+
+## Output
+
+- Trained model checkpoints saved to `save_models/`
+- TensorBoard logs written to `log_path`
+- Segmentation results on test set stored as PNGs
+
+
+# AANET-3D
+
+This code implements training and evaluation of a convolutional neural network model for segmenting lungs in CT scans.
+
+## Model Architecture
+
+The model architecture is AANet, which contains encoding and decoding blocks with skip connections. Batch normalization is synchronized across GPUs.
+
+## Training Pipeline
+
+- Loads lung CT scans and segmentation masks as training data
+
+- Applies data augmentation like random cropping, flipping, rotation 
+
+- Defines AANet model, Dice + Tversky loss, AdamW optimizer
+
+- Training loop with forward/backward passes, optimization, learning rate scheduling
+
+- Evaluates validation metrics like F1 score 
+
+- Logs training metrics, validation metrics using TensorBoard
+
+- Saves model checkpoints during training
+
+- Tests trained model on test set and generates lung segmentation
+
+## Usage
+
+Train model:
+
+`python train.py --epochs 500 --batch_size 8` 
+
+Main arguments:
+
+- `--epochs`: Number of training epochs
+- `--batch_size`: Batch size
+- `--learn_rate`: Learning rate 
+- `--log_path`: TensorBoard log directory
+
+The code supports multi-GPU training via PyTorch DataParallel.
+
+## Output
+
+- Trained model checkpoints saved to `save_models/`
+- TensorBoard logs written to `log_path`
+- Segmentation results on test set stored as PNGs
+
+
+# YOLO Object Detection Python Wrapper
+
+This code provides a Python wrapper for performing object detection using YOLO models. It interfaces with the YOLO DLL to run detection on images.
+
+## Features
+
+- Loads YOLO network config, weights and metadata
+- Runs detection on images, returns bounding boxes and labels
+- Supports batch detection on multiple images
+- Displays detection results on images
+- Handles CPU or GPU mode automatically
+
+## Usage
+
+Run detection on an image:
+
+```python
+from darknet_python import performDetect
+
+boxes = performDetect(imagePath="dog.jpg")
+```
+
+Perform batch detection on multiple images:
+
+```python 
+from darknet_python import performBatchDetect 
+
+batch_boxes = performBatchDetect(img_list=['img1.jpg', 'img2.jpg'])
+```
+
+Main parameters:
+
+- `imagePath` - Path to input image
+- `configPath`, `weightPath`, `metaPath` - Paths to YOLO files
+- `thresh` - Detection threshold
+- `showImage` - Show output image
+
+## Implementation
+
+The Python wrapper calls into the YOLO DLL to run detection. Main steps:
+
+- Load network, metadata and image 
+- Pass image through network for predictions
+- Parse predictions into boxes, scores and labels
+- Apply NMS thresholding to boxes
+- Draw boxes on image
