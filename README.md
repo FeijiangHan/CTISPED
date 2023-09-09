@@ -21,3 +21,6 @@ Model training incorporates an ensemble with Tiny-Attention-Residual-Unet and At
 Finally, a segmentation-detection-fusion pipeline was explored by using YOLO for ROI extraction, UNet for segmentation, and merging the outputs. This cascade could synergistically boost performance.
 
 Overall, the techniques aim to showcase skills in medical deep learning, data augmentation, model integration, and pulmonary embolism diagnosis. Please let me know if you would like me to modify or expand any part of the description.
+
+
+For more information please see the Unets-2D REAMDE

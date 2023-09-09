@@ -18,19 +18,19 @@ from utils.metrics import compute_metrics
 from utils.tools import create_directory
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-# 命令行参数设置
+# Parameter Setting
 parser = argparse.ArgumentParser()
-# 模型选择
+# Model Configuration
 parser.add_argument('--model', type=str, default='unet', choices=['unet', 'r2unet', 'attention_unet', 'attention_r2unet', 'nested_unet',
                                     'xnet', 'nfn_plus'])
-# 数据集选择
+# Select DataSet 
 parser.add_argument('--dataset', type=str, default='lung', choices=['lung'])
-# 损失选择
+# Loss function
 parser.add_argument('--loss', type=str, default='Dice', choices=['DiceBCE', 'CE', 'SCE', 'Dice', 'Lovasz'])
-# tools.py 增强
+# tools.py: Improving with noisy
 parser.add_argument('--noisy_rate', type=float, choices=[0.2, 0.3, 0.4])
 parser.add_argument('--noisy_type', type=str, choices=['sy', 'asy'])
-
+# Other configurations
 parser.add_argument('--checkpoint', type=str, default=None)
 parser.add_argument('--gpu', type=str, default='0', choices=['0', '1'])
 parser.add_argument('--parallel', type=str, default='False', choices=['True', 'False'])
@@ -39,13 +39,13 @@ parser.add_argument('--epoch', type=int, default=300)
 parser.add_argument('--batch_size', type=int, default=2)
 # Learning rate
 parser.add_argument('--lr', type=float, default=1e-4)
-# 学习率衰减
+# Learning rate decay
 parser.add_argument('--weight_decay', type=float, default=0)
 parser.add_argument('--print_frequency', type=int, default=4)
 parser.add_argument('--save_frequency', type=int, default=4)
 args = parser.parse_args()
 
-# 其他准备
+# Others
 BASE_PATH = r'C:\Users\29185\Desktop\大创-肺部疾病检测\TianChiCTSeg'
 format = '{}_{}_{}'.format(args.dataset, args.model, args.loss)
 # ？
@@ -62,20 +62,20 @@ os.makedirs(checkpoint_path_prefix, exist_ok=True)
 # DEVICE = 'cuda'
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-# 加载数据
+# Loading Data
 print('Loading data...')
-# 选择数据集
+# Choose the training data
 if args.dataset == 'lung':
     dataset = lung.Lung
 else:
     print('数据集异常')
     pass
 
-# 对image和mask进行resize
+# resize the image and mask
 transform = transforms.Compose([transforms.ToTensor()])
 target_transform = transforms.Compose([transforms.ToTensor()])
 
-# noisy_chaos可以设置噪声率和噪声类型
+# The training data and validation data paths
 if args.dataset == 'lung':
     train_data = dataset(mode='train', transform=transform, target_transform=target_transform,
                          BASE_PATH=r"C:\Users\29185\Desktop\大创-肺部疾病检测\TianChiCTSeg\data\train")
@@ -88,7 +88,7 @@ val_loader = DataLoader(dataset=val_data, batch_size=args.batch_size, shuffle=Fa
                         num_workers=args.num_workers, pin_memory=True)
 print('Create model...')
 
-# 选择网络模型
+# Models selection
 if args.model == 'unet':
     net = unet.UNet(num_classes=dataset.NUM_CLASSES, in_channels=dataset.CHANNELS_NUM)
 elif args.model == 'r2unet':
@@ -111,12 +111,11 @@ elif args.model == 'unet3tiny':
 elif args.model == 'unet1tiny':
     net = unet_tiny.UNet1tiny(num_classes=dataset.NUM_CLASSES, in_channels=dataset.CHANNELS_NUM)
 
-# 设置优化方法和损失函数
+# Set the optimizer and loss function
 # optimizer = torch.optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=args.weight_decay)
 optimizer = torch.optim.Adam(net.parameters(), lr=args.lr)
 
-
-# 选择损失函数
+# Select the loss function
 if args.loss == 'DiceBCE':
     criterion = loss_function.DiceAndBCELoss(dataset.NUM_CLASSES)
 elif args.loss == 'CE':
@@ -141,7 +140,7 @@ print('tensorboard_log_path: {}'.format(log_path))
 print('<================================================>')
 
 
-# 判断是否使用多GPU运行
+# If you want to use multiple GPU
 if args.parallel == 'True':
     print('Use DataParallel.')
     net = torch.nn.DataParallel(net)
@@ -150,16 +149,17 @@ net = net.to(device)
 
 start_epoch = 0
 temp = 0
-# 加载模型
+# Loading model
 if args.checkpoint is not None:
     checkpoint_data = torch.load(args.checkpoint)
     print('**** Load model and optimizer data from {} ****'.format(args.checkpoint))
 
-    # 加载模型和优化器的数据
+    # loading the data of modal and optimizer
     net.load_state_dict(checkpoint_data['model_state_dict'])
     optimizer.load_state_dict(checkpoint_data['optimizer_state_dict'])
 
-    # 加载上次训练的最后一个epoch和打印的最后一个temp，这里作为起点，需要在之前的基础上加1
+    # To load the last epoch trained last time and the last temp printed, 
+    # add 1 to the previous one as a starting point
     start_epoch = checkpoint_data['epoch'] + 1
     temp = checkpoint_data['temp'] + 1
 
@@ -167,11 +167,11 @@ if args.checkpoint is not None:
     # temp = (len(train_loader) // args.print_frequency) * start_epoch + 1
 
 else:
-    # 如果重新开始训练，则删除原来的log并新建
+    # Remove and reconstruct the previous log and training again
     create_directory(log_path)
 
 writer = SummaryWriter(log_dir=log_path, flush_secs=30)
-# 训练与验证的过程
+# The process of training and validating
 print('Start training...')
 for epoch in range(start_epoch, args.epoch):
     # 训练
@@ -193,10 +193,10 @@ for epoch in range(start_epoch, args.epoch):
             loss /= len(outputs)
         else:
             loss = criterion(outputs, labels.long())
-        # 计算在该批次上的平均损失函数
+        # 计算在该批次上的平均损失函数 (average loss)
         loss /= inputs.size(0)
 
-        # 更新网络参数
+        # 更新网络参数 (update network parameters)
         loss.backward()
         optimizer.step()
 
@@ -204,9 +204,11 @@ for epoch in range(start_epoch, args.epoch):
 
         if isinstance(outputs, list):
             # 若使用deep supervision，用最后的输出来进行预测
+            # If deep supervision is used, the final output is used to make predictions
             predictions = torch.max(outputs[-1], dim=1)[1].cpu().numpy().astype(np.int)
         else:
             # 将概率最大的类别作为预测的类别
+            # Take the category with the highest probability as the category of prediction
             predictions = torch.max(outputs, dim=1)[1].cpu().numpy().astype(np.int)
 
         labels = labels.cpu().numpy().astype(np.int)
@@ -216,6 +218,7 @@ for epoch in range(start_epoch, args.epoch):
 
         if (index + 1) % args.print_frequency == 0:
             # 计算打印间隔的平均损失函数
+            # Calculate the average loss function of the print interval
             avg_loss = np.mean(loss_all)
             loss_all = []
 
@@ -226,6 +229,7 @@ for epoch in range(start_epoch, args.epoch):
                 epoch + 1, args.epoch, index + 1, len(train_loader), avg_loss))
 
     # 使用混淆矩阵计算语义分割中的指标
+    # Calculate indexes in semantic segmentation using confusion matrix
     iou, miou, dsc, mdsc, ac, pc, mpc, se, mse, sp, msp, f1, mf1 = compute_metrics(predictions_all, labels_all,
                                                                                    dataset.NUM_CLASSES)
 
@@ -235,7 +239,7 @@ for epoch in range(start_epoch, args.epoch):
         miou, mdsc, mpc, ac, mse, msp, mf1
     ))
 
-    # 验证
+    # 验证 (validation)
     loss_all = []
     predictions_all = []
     labels_all = []
@@ -252,6 +256,8 @@ for epoch in range(start_epoch, args.epoch):
 
             loss = 0
             # 如果使用deep supervision，返回1个list（包含多个输出），计算每个输出的loss，最后求平均
+            # If you use deep supervision, return a list (containing multiple outputs), 
+            # calculate the loss for each output, and finally average
             if isinstance(outputs, list):
                 for out in outputs:
                     loss += criterion(out, labels.long())
@@ -259,15 +265,18 @@ for epoch in range(start_epoch, args.epoch):
             else:
                 loss = criterion(outputs, labels.long())
             # 计算在该批次上的平均损失函数
+            # Calculate the average loss function on the batch
             loss /= inputs.size(0)
 
             loss_all.append(loss.item())
 
             if isinstance(outputs, list):
                 # 若使用deep supervision，用最后一个输出来进行预测
+                # If deep supervision is used, use the last output to make the prediction
                 predictions = torch.max(outputs[-1], dim=1)[1].cpu().numpy().astype(np.int)
             else:
                 # 将概率最大的类别作为预测的类别
+                # Take the category with the highest probability as the category of prediction
                 predictions = torch.max(outputs, dim=1)[1].cpu().numpy().astype(np.int)
             labels = labels.cpu().numpy().astype(np.int)
 
@@ -275,6 +284,7 @@ for epoch in range(start_epoch, args.epoch):
             labels_all.append(labels)
 
     # 使用混淆矩阵计算语义分割中的指标
+    # Calculate indexes in semantic segmentation using confusion matrix
     iou, miou, dsc, mdsc, ac, pc, mpc, se, mse, sp, msp, f1, mf1 = compute_metrics(predictions_all, labels_all,
                                                                                    dataset.NUM_CLASSES)
     avg_loss = np.mean(loss_all)
@@ -283,6 +293,7 @@ for epoch in range(start_epoch, args.epoch):
     writer.add_scalars('val/metrics', dict(miou=miou, mdsc=mdsc, mpc=mpc, ac=ac, mse=mse, msp=msp, mf1=mf1), epoch)
 
     # 绘制每个类别的IoU
+    # Draw the IoU for each category
     temp_dict = {'miou': miou}
     for i in range(dataset.NUM_CLASSES):
         temp_dict['class{}'.format(i)] = iou[i]
@@ -293,6 +304,7 @@ for epoch in range(start_epoch, args.epoch):
     ))
 
     # 保存模型参数和优化器参数
+    # Save model parameters and optimizer parameters
     if (epoch + 1) % args.save_frequency == 0:
         checkpoint_path = '{}_{}_{}.pkl'.format(format, time.strftime('%m%d_%H%M', time.localtime()), epoch)
         # save_checkpoint_path = checkpoint_path_prefix + '/' + checkpoint_path
