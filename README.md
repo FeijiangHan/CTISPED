@@ -26,56 +26,74 @@ Overall, the techniques aim to showcase skills in medical deep learning, data au
 For more information please see the Unets-2D REAMDE
 
 # UNET2-2D
+This code implements training and evaluation of various semantic segmentation models on medical image datasets using PyTorch.
 
-This code implements training and evaluation of a convolutional neural network model for segmenting lungs in CT scans.
+## Features
 
-## Model Architecture
+- Supports various semantic segmentation network architectures: UNet, R2UNet, Attention UNet, Nested UNet etc.
 
-The model architecture is AANet, which contains encoding and decoding blocks with skip connections. Batch normalization is synchronized across GPUs.
+- Provides multiple loss functions like cross entropy loss, Dice loss and combined loss.
 
-## Training Pipeline
+- Implements lung CT dataset for training and validation.
 
-- Loads lung CT scans and segmentation masks as training data
+- Contains complete training and validation loop with metrics visualization. 
 
-- Applies data augmentation like random cropping, flipping, rotation 
+- Logs training process using TensorBoard.
 
-- Defines AANet model, Dice + Tversky loss, AdamW optimizer
+- Supports model checkpointing and resuming training.
 
-- Training loop with forward/backward passes, optimization, learning rate scheduling
+- Calculates common evaluation metrics for semantic segmentation and visualizes them. 
 
-- Evaluates validation metrics like F1 score 
-
-- Logs training metrics, validation metrics using TensorBoard
-
-- Saves model checkpoints during training
-
-- Tests trained model on test set and generates lung segmentation
+- Enables multi-GPU training using PyTorch DataParallel.
 
 ## Usage
 
-Train model:
+`python train.py`
 
-`python train.py --epochs 500 --batch_size 8` 
+**Main arguments:**
 
-Main arguments:
+- `--model`: Model architecture, UNet by default
 
-- `--epochs`: Number of training epochs
-- `--batch_size`: Batch size
-- `--learn_rate`: Learning rate 
-- `--log_path`: TensorBoard log directory
+- `--loss`: Loss function, Dice loss by default
 
-The code supports multi-GPU training via PyTorch DataParallel.
+- `--dataset`: Dataset, lung CT by default  
 
-## Output
+- `--epoch`: Number of training epochs, 300 by default
 
-- Trained model checkpoints saved to `save_models/`
-- TensorBoard logs written to `log_path`
-- Segmentation results on test set stored as PNGs
+- `--batch_size`: Batch size, 2 by default
+
+- `--lr`: Learning rate, 1e-4 by default
+
+- `--checkpoint`: Path to pretrained model checkpoint
+
+- `--gpu`: GPU device id
+
+- `--parallel`: Enable multi-GPU training
+
+The code will automatically log TensorBoard events, save model checkpoints.
+
+## Code Structure
+
+- `models/`: Different model architectures
+
+- `datasets/`: Dataset loaders 
+
+- `utils/`: Utility functions like metrics calculation
+
+**Main workflow:**
+
+1. Parse arguments, load data
+
+2. Build model, define optimizer and loss
+
+3. Training loop: forward pass, backprop, optimize
+
+4. Calculate metrics, log TensorBoard
+
+5. Save model checkpoints
 
 
 # AANET-3D
-
-This code implements training and evaluation of a convolutional neural network model for segmenting lungs in CT scans.
 
 ## Model Architecture
 
