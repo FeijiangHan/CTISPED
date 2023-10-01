@@ -46,7 +46,7 @@ parser.add_argument('--save_frequency', type=int, default=4)
 args = parser.parse_args()
 
 # Others
-BASE_PATH = r'C:\Users\29185\Desktop\大创-肺部疾病检测\TianChiCTSeg'
+BASE_PATH = r'C:\Users\29185\Desktop'
 format = '{}_{}_{}'.format(args.dataset, args.model, args.loss)
 # ？
 loss_weights = False
@@ -68,7 +68,7 @@ print('Loading data...')
 if args.dataset == 'lung':
     dataset = lung.Lung
 else:
-    print('数据集异常')
+    print('Data Abnormal!')
     pass
 
 # resize the image and mask
@@ -78,9 +78,9 @@ target_transform = transforms.Compose([transforms.ToTensor()])
 # The training data and validation data paths
 if args.dataset == 'lung':
     train_data = dataset(mode='train', transform=transform, target_transform=target_transform,
-                         BASE_PATH=r"C:\Users\29185\Desktop\大创-肺部疾病检测\TianChiCTSeg\data\train")
+                         BASE_PATH=r"C:\Users\29185\Desktop\data\train")
     val_data = dataset(mode='val', transform=transform, target_transform=target_transform,
-                       BASE_PATH=r"C:\Users\29185\Desktop\大创-肺部疾病检测\TianChiCTSeg\data\val")
+                       BASE_PATH=r"C:\Users\29185\Desktop\data\val")
 
 train_loader = DataLoader(dataset=train_data, batch_size=args.batch_size, shuffle=True,
                           num_workers=args.num_workers, pin_memory=True)
