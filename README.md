@@ -1,4 +1,4 @@
-<div class="column">
+<div class="column" align="middle">
   <p align="center">
   </p>
   </a>
