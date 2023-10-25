@@ -18,8 +18,7 @@
   </a>
 
 <h5 align="center">If you are interested in This project, please kindly give Me a triple `Star`, `Fork` and `Watch`, Thanks!</h5>
-
-<h5 align="left"> </h5>
+</div>
 
 # CT Image Segmentation for Pulmonary Embolism Diagnosis
 
