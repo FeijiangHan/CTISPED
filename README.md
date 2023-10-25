@@ -19,7 +19,8 @@
 
 <h5 align="center">If you are interested in This project, please kindly give Me a triple `Star`, `Fork` and `Watch`, Thanks!</h5>
 
-# CT Image Segmentation for Pulmonary Embolism Diagnosis
+<h2 align="left">CT Image Segmentation for Pulmonary Embolism Diagnosis
+
 
 Pulmonary embolism is a lung condition most commonly caused by blood clots, also known as thromboembolism. By analyzing CT scans of the lungs, doctors can identify clots in the pulmonary vessels to facilitate timely treatment. The goal of this project is to assist physicians in detecting areas of pulmonary embolism using deep learning, reducing their workload and improving detection accuracy.
 
@@ -173,7 +174,9 @@ The Python wrapper calls into the YOLO DLL to run detection. Main steps:
 - Pass image through network for predictions
 - Parse predictions into boxes, scores and labels
 - Apply NMS thresholding to boxes
-- Draw boxes on image
+- Draw boxes on image </h2>
+
+
 
 ### 👏 All contributors
 
@@ -188,8 +191,6 @@ The Python wrapper calls into the YOLO DLL to run detection. Main steps:
     </td>
 </tr>
 </table>
-<!-- readme: contributors -end -->
-
 ## License
 
 MatrixOne is licensed under the [Apache License, Version 2.0](LICENSE).
