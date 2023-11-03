@@ -190,7 +190,6 @@ The Python wrapper calls into the YOLO DLL to run detection. Main steps:
         </a>
     </td>
 </tr>
-</table>
-## License
-
-MatrixOne is licensed under the [Apache License, Version 2.0](LICENSE).
+</tabl>
+# License
+This project is licensed under the [Apache License, Version 2.0](LICENSE).
