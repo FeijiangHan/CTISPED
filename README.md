@@ -6,14 +6,14 @@
     <img src="https://img.shields.io/badge/License-Apache%202.0-red.svg" alt="license"/>
   </a>
   <a href="https://golang.org/">
-    <img src="https://img.shields.io/badge/Language-Go-blue.svg" alt="language"/>
+    <img src="https://img.shields.io/badge/Language-Python-blue.svg" alt="language"/>
   </a>
   <img src="https://img.shields.io/badge/platform-MacOS-white.svg" alt="macos"/>
   <img src="https://img.shields.io/badge/platform-Linux-9cf.svg" alt="linux"/>
   <a href="https://www.codefactor.io/repository/github/matrixorigin/matrixone">
     <img src="https://www.codefactor.io/repository/github/matrixorigin/matrixone/badge?s=7280f4312fca2f2e6938fb8de5b726c5252541f0" alt="codefactor"/>
   </a>
-  <a href="https://docs.matrixorigin.cn/en/0.7.0/MatrixOne/Release-Notes/v0.7.0/">
+  <a href="https://docs.matrixorigin.cn/en/0.7.0/MatrixOne/Release-Notes/v0.4.0/">
    <img src="https://img.shields.io/badge/Release-v0.7.0-green.svg" alt="release"/>
   </a>
 
