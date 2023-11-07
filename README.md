@@ -20,7 +20,7 @@
 <h5 align="center">If you are interested in This project, please kindly give Me a triple `Star`, `Fork` and `Watch`, Thanks!</h5>
 </div>
 
-# CT Image Segmentation for Pulmonary Embolism Diagnosis
+# CTISPED: CT Image Segmentation for Pulmonary Embolism DiagnosisCTISPED
 
 Pulmonary embolism is a lung condition most commonly caused by blood clots, also known as thromboembolism. By analyzing CT scans of the lungs, doctors can identify clots in the pulmonary vessels to facilitate timely treatment. The goal of this project is to assist physicians in detecting areas of pulmonary embolism using deep learning, reducing their workload and improving detection accuracy.
 
