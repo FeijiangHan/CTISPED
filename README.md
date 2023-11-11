@@ -2,25 +2,17 @@
   <p align="center">
   </p>
   </a>
-  <a href="https://github.com/matrixorigin/matrixone/blob/main/LICENSE">
     <img src="https://img.shields.io/badge/License-Apache%202.0-red.svg" alt="license"/>
-  </a>
-  <a href="https://golang.org/">
-    <img src="https://img.shields.io/badge/Language-Go-blue.svg" alt="language"/>
-  </a>
+    <img src="https://img.shields.io/badge/Language-Python-blue.svg" alt="language"/>
   <img src="https://img.shields.io/badge/platform-MacOS-white.svg" alt="macos"/>
   <img src="https://img.shields.io/badge/platform-Linux-9cf.svg" alt="linux"/>
-  <a href="https://www.codefactor.io/repository/github/matrixorigin/matrixone">
-    <img src="https://www.codefactor.io/repository/github/matrixorigin/matrixone/badge?s=7280f4312fca2f2e6938fb8de5b726c5252541f0" alt="codefactor"/>
-  </a>
-  <a href="https://docs.matrixorigin.cn/en/0.7.0/MatrixOne/Release-Notes/v0.7.0/">
-   <img src="https://img.shields.io/badge/Release-v0.7.0-green.svg" alt="release"/>
-  </a>
 
 <h5 align="center">If you are interested in This project, please kindly give Me a triple `Star`, `Fork` and `Watch`, Thanks!</h5>
 </div>
 
 # CT Image Segmentation for Pulmonary Embolism Diagnosis
+
+
 
 Pulmonary embolism is a lung condition most commonly caused by blood clots, also known as thromboembolism. By analyzing CT scans of the lungs, doctors can identify clots in the pulmonary vessels to facilitate timely treatment. The goal of this project is to assist physicians in detecting areas of pulmonary embolism using deep learning, reducing their workload and improving detection accuracy.
 
