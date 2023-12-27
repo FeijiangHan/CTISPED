@@ -21,34 +21,64 @@ For image processing, convolutional neural networks were chosen for their effici
 
 **To address class imbalance, the following strategies were employed:**
 
-1. Dice Loss and Focal Loss as objective functions to improve model robustness.
-2. Data augmentation via strategic oversampling and synthesis based on target ratio analysis, such as concatenating low ratio samples and replicating targets. This alleviates distribution skew.
-3. Lung segmentation and cropping to reduce background and indirectly increase target ratios.
+1. Dice Loss and Focal Loss are combined to improve detection accuracy of small targets.  
+2. Lung segmentation and cropping to reduce background and indirectly increase target ratios.
+3. Data augmentation via strategic oversampling and synthesis based on target ratio analysis. (concatenating low ratio samples and replicating targets)
+4. YOLO for ROI extraction, ensemble Tiny-Attention-Unet for segmentation, and merging the outputs.   
+5. Utilizing techniques like lightweight samples, sliding averages, and cosine annealing.
 
-Testing showed these approaches improved small target detection.
+For more information please see the Unets-2D README
 
-Model training incorporates an ensemble with Tiny-Attention-Residual-Unet and Attention UNet, expected to improve accuracy by 8-10%. Convergence is ensured through techniques like little sample, sliding averages, and cosine annealing.
+- [CTISPED: CT Image Segmentation for Pulmonary Embolism DiagnosisCTISPED](#ctisped-ct-image-segmentation-for-pulmonary-embolism-diagnosisctisped)
+- [UNETS-2D](#unets-2d)
+  - [Dataset](#dataset)
+  - [Features](#features)
+  - [Usage](#usage)
+  - [Code Structure](#code-structure)
+- [AANET-3D](#aanet-3d)
+  - [Model Architecture](#model-architecture)
+  - [Training Pipeline](#training-pipeline)
+  - [Usage](#usage-1)
+  - [Output](#output)
+- [YOLO Object Detection Python Wrapper](#yolo-object-detection-python-wrapper)
+  - [Features](#features-1)
+  - [Usage](#usage-2)
+  - [Implementation](#implementation)
+- [License](#license)
 
-Finally, a segmentation-detection-fusion pipeline was explored by using YOLO for ROI extraction, UNet for segmentation, and merging the outputs. This cascade could synergistically boost performance.
-
-Overall, the techniques aim to showcase skills in medical deep learning, data augmentation, model integration, and pulmonary embolism diagnosis. Please let me know if you would like me to modify or expand any part of the description.
-
-For more information please see the Unets-2D REAMDE
 
 # UNETS-2D
+This code implements training and evaluation of various semantic segmentation models on medical CT image datasets using PyTorch. 
 
-This code implements training and evaluation of various semantic segmentation models on medical image datasets using PyTorch.
+## Dataset
+* Dataset Description: The current dataset FUMPE (representing Ferdowsi University of Mashhad's PE dataset) consists of computed tomography angiography (CTA) images of pulmonary embolism (PE) from 35 different patients. Two radiologist experts provided the ground truths with the advantage of a semi-automated image processing software tool.
+
+
+* Data Source: https://tianchi.aliyun.com/dataset/90713, Masoudi, M. et al. A new dataset of computed-tomography angiography images for computer-aided detection of pulmonary embolism. Sci. Data 5:180180 doi: 10.1038/sdata.2018.178 (2018). DOI: https://doi.org/10.6084/m9.figshare.c.4107803.v1  
+
+
+* Data Processing Logic: Please see https://github.com/FeijiangHan/CTISPED/tree/main/Unets-2D/data_process, where I implemented the processing and augmentation of the original dataset.
 
 ## Features
+- Provides clear parameter selection interaction: Configure dataset path, model, learning rate, loss function, momentum etc. via command line arguments
 
-- Supports various semantic segmentation network architectures: UNet, R2UNet, Attention UNet, Nested UNet etc.
-- Provides multiple loss functions like cross entropy loss, Dice loss and combined loss.
-- Implements lung CT dataset for training and validation.
-- Contains complete training and validation loop with metrics visualization.
-- Logs training process using TensorBoard.
+
+- Supports various semantic segmentation network architectures: UNet, Tin Unet, R2UNet, Attention UNet, Nested UNet etc.
+- Provides multiple loss functions like cross entropy loss, Dice loss, Focal loss and combined loss.  
+
 - Supports model checkpointing and resuming training.
+
+
+- Contains complete training and validation loop with metrics visualization.
+
+
+- Logs training process using TensorBoard.
+
+
 - Calculates common evaluation metrics for semantic segmentation and visualizes them.
-- Enables multi-GPU training using PyTorch DataParallel.
+
+
+- Enables CUDA multi-GPU training using PyTorch DataParallel.
 
 ## Usage
 
@@ -63,7 +93,7 @@ This code implements training and evaluation of various semantic segmentation mo
 - `--batch_size`: Batch size, 2 by default
 - `--lr`: Learning rate, 1e-4 by default
 - `--checkpoint`: Path to pretrained model checkpoint
-- `--gpu`: GPU device id
+- `--gpu`: GPU 
 - `--parallel`: Enable multi-GPU training
 
 The code will automatically log TensorBoard events, save model checkpoints.
@@ -167,18 +197,6 @@ The Python wrapper calls into the YOLO DLL to run detection. Main steps:
 - Apply NMS thresholding to boxes
 - Draw boxes on image
 
-### 👏 All contributors
 
-<table>
-<tr>
-    <td align="center">
-        <a href="https://github.com/feijianghan">
-            <img src="https://avatars.githubusercontent.com/u/88610657?s=96&v=4" width="30;" alt="nnsgmsone"/>
-            <br />
-            <sub><b>Feijiang Han</b></sub>
-        </a>
-    </td>
-</tr>
-</tabl>
 # License
 This project is licensed under the [Apache License, Version 2.0](LICENSE).

@@ -17,21 +17,25 @@ pytoch==1.1.0 or 1.3.1 *Newer version may need code adaptation.*
 
 ## Features
 
-- Supports various semantic segmentation network architectures: UNet, R2UNet, Attention UNet, Nested UNet etc.
+- Provides clear parameter selection interaction: Configure dataset path, model, learning rate, loss function, momentum etc. via command line arguments
 
-- Provides multiple loss functions like cross entropy loss, Dice loss and combined loss.
 
-- Implements lung CT dataset for training and validation.
-
-- Contains complete training and validation loop with metrics visualization. 
-
-- Logs training process using TensorBoard.
+- Supports various semantic segmentation network architectures: UNet, Tin Unet, R2UNet, Attention UNet, Nested UNet etc.
+- Provides multiple loss functions like cross entropy loss, Dice loss, Focal loss and combined loss.  
 
 - Supports model checkpointing and resuming training.
 
-- Calculates common evaluation metrics for semantic segmentation and visualizes them. 
 
-- Enables multi-GPU training using PyTorch DataParallel.
+- Contains complete training and validation loop with metrics visualization.
+
+
+- Logs training process using TensorBoard.
+
+
+- Calculates common evaluation metrics for semantic segmentation and visualizes them.
+
+
+- Enables CUDA multi-GPU training using PyTorch DataParallel.
 
 ## Usage
 
@@ -53,7 +57,7 @@ Main arguments:
 
 - `--checkpoint`: Path to pretrained model checkpoint
 
-- `--gpu`: GPU device id
+- `--gpu`: GPU
 
 - `--parallel`: Enable multi-GPU training
 
